@@ -74,3 +74,5 @@ results
 
 # get the best parameter values
 gridsearch.best_params_
+
+gridsearch.predict(housing_x_test)
