@@ -11,6 +11,7 @@ from sklearn import set_config
 
 # import the K-NN regression model
 from sklearn.neighbors import KNeighborsRegressor
+from sklearn.metrics import mean_squared_error
 
 # scikit learn data comes in 2 parts
 # it separates the predictor data from response data
@@ -33,7 +34,6 @@ housing.head()
 
 
 # --- model
-
 
 # Output dataframes instead of arrays
 set_config(transform_output="pandas")
@@ -78,4 +78,11 @@ results
 # get the best parameter values
 gridsearch.best_params_
 
-gridsearch.predict(housing_x_test)
+predicted = gridsearch.predict(housing_x_test)
+
+rmspe_knn = mean_squared_error(
+    y_true=housing_y_test,
+    y_pred=predicted,
+) ** (1 / 2)
+
+rmspe_knn
