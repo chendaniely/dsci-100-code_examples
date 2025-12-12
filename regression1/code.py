@@ -13,6 +13,8 @@ from sklearn import set_config
 from sklearn.neighbors import KNeighborsRegressor
 from sklearn.metrics import mean_squared_error
 
+### DON"T NEED TO KNOW
+
 # scikit learn data comes in 2 parts
 # it separates the predictor data from response data
 skhouse = fetch_california_housing(as_frame=True)
@@ -22,7 +24,9 @@ print(skhouse.DESCR)
 housing_x = skhouse["data"]
 housing_y = skhouse["target"]
 
+
 # split data!
+# you do need to know how and why you're train/test splitting your data
 housing_x_train, housing_x_test, housing_y_train, housing_y_test = train_test_split(
     housing_x, housing_y, test_size=0.2, random_state=42
 )
@@ -32,11 +36,12 @@ housing = pd.concat([housing_x, housing_y], axis="columns")
 housing.columns
 housing.head()
 
-
-# --- model
-
 # Output dataframes instead of arrays
 set_config(transform_output="pandas")
+
+### END NEED TO KNOW
+
+# --- model
 
 # preprocess the data, make the pipeline
 preprocessor = make_column_transformer(
