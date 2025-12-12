@@ -85,6 +85,8 @@ gridsearch.best_params_
 
 predicted = gridsearch.predict(housing_x_test)
 
+housing_y_test
+
 rmspe_knn = mean_squared_error(
     y_true=housing_y_test,
     y_pred=predicted,
