@@ -58,7 +58,7 @@ pipeline = make_pipeline(preprocessor, KNeighborsRegressor())
 
 # create the 5-fold GridSearchCV object
 param_grid = {
-    "kneighborsregressor__n_neighbors": range(1, 201, 3),
+    "kneighborsregressor__n_neighbors": range(1, 21, 3),
 }
 gridsearch = GridSearchCV(
     estimator=pipeline,
