@@ -118,7 +118,7 @@ preprocessor3 = make_column_transformer(
     remainder="passthrough",
 )
 
-clust = make_pipeline(preprocessor2, kmeans)
+clust = make_pipeline(preprocessor3, kmeans)
 clust.fit(iris)
 clust
 
