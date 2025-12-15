@@ -113,7 +113,7 @@ preprocessor3 = make_column_transformer(
             "petal width (cm)",
         ],
     ),
-    (OneHotEncoder(sparse_output=False), ["species", "island", "sex"]),
+    (OneHotEncoder(sparse_output=False), ["species"]),
     verbose_feature_names_out=False,
     remainder="passthrough",
 )
