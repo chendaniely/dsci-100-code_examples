@@ -1,0 +1,11 @@
+# example data used for dsci 100 showing relative paths
+# and how to read in data
+# there are 2 columns of data
+# name: name of person
+# class: year they are in
+
+name$class
+daniel$1
+julia$3
+chelsea$2
+josh$4
