@@ -1,10 +1,10 @@
-from palmerpenguins import load_penguins
 import pandas as pd
 import numpy as np
 import altair as alt
 
 # load and clean data
-penguins = load_penguins().dropna()
+URL = "https://raw.githubusercontent.com/allisonhorst/palmerpenguins/main/inst/extdata/penguins.csv"
+penguins = pd.read_csv(URL).dropna()
 
 # treat the full Adelie penguin flipper length data as our "population"
 adelie = penguins[penguins["species"] == "Adelie"]

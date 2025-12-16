@@ -1,10 +1,10 @@
-from palmerpenguins import load_penguins
 import pandas as pd
 import numpy as np
 import altair as alt
 
 # load and clean data
-penguins = load_penguins().dropna()
+URL = "https://raw.githubusercontent.com/allisonhorst/palmerpenguins/main/inst/extdata/penguins.csv"
+penguins = pd.read_csv(URL).dropna()
 
 # treat adelie as our "sample" (what we actually observed in reality)
 adelie = penguins[penguins["species"] == "Adelie"]
