@@ -35,10 +35,9 @@ x_train, x_test, y_train, y_test = train_test_split(
 knn = KNeighborsClassifier(n_neighbors=5)
 knn
 
-knn.fit(X=x, y=y)
+knn.fit(X=x, y=y)  # this line of code is wrong
 
 y_pred = knn.predict(x_test)
-
 y_test
 
 
@@ -52,16 +51,20 @@ preprocessor = make_column_transformer(
     verbose_feature_names_out=False,
 )
 
+# this line is also wrong
 preprocessor.fit(x)  # using x instead of wine because the y is a number
 
 scaled_wine = preprocessor.transform(x)
 scaled_wine
 
 knn_pipeline = make_pipeline(preprocessor, knn)
-knn_pipeline.fit(X=x, y=y)
+knn_pipeline.fit(X=x, y=y)  # this line is wrong
 knn_pipeline
 
 knn_pipeline.predict(x_train)
 y_train
+
+knn_pipeline.predict(x_test)
+y_test
 
 knn_pipeline.score(x_test, y_test)
