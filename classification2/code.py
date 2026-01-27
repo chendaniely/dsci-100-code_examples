@@ -58,4 +58,6 @@ print("Best CV accuracy:", gridsearch.best_score_)
 print("Best parameters:", gridsearch.best_params_)
 
 y_pred = gridsearch.predict(x_test)
-print("Test accuracy:", accuracy_score(y_test, y_pred))
+
+test_accuracy = gridsearch.score(x_test, y_test)
+print("Test accuracy:", test_accuracy)
