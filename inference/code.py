@@ -27,6 +27,8 @@ for i in range(n_samples):
 
 sampling_dist_df = pd.DataFrame({"mean_flipper_length": sample_means})
 
+sampling_dist_df["mean_flipper_length"].mean()
+
 # calculate standard error
 se_sampling = np.std(sample_means)
 print(f"Standard error of sampling distribution: {se_sampling:.2f} mm")
