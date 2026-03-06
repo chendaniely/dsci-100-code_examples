@@ -29,3 +29,21 @@ ebola_tidy <- ebola_long |>
   drop_na()
 
 ebola_tidy
+
+
+mtcars |>
+  group_by(cyl) |>
+    summarise(
+      disp = mean(disp),
+      hp = mean(hp),
+      mpg = mean(mpg)
+  )
+
+
+# vs - engine shape v or straight
+#vs: Engine shape (0 = V-shape, 1 = Straight)
+#am: Transmission (0 = Automatic, 1 = Manual)
+
+mtcars |>
+  group_by(vs, am) |>
+  summarise(n = n())
