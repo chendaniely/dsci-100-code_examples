@@ -20,6 +20,10 @@ ebola_long <- ebola_long |>
 ebola_long |>
   summarize(max_count = max(count, na.rm = TRUE), .by = c(case_death, country))
 
+ebola_long |>
+  group_by(case_death, country) |>
+  summarize(max = max(count, na.rm = TRUE))
+
 ebola_tidy <- ebola_long |>
   pivot_wider(
     id_cols = c(Date, Day, country),
@@ -29,6 +33,13 @@ ebola_tidy <- ebola_long |>
   drop_na()
 
 ebola_tidy
+
+ebola_tidy |>
+  group_by(country) |>
+  summarize(
+    max_case = max(Cases, na.rm = TRUE),
+    max_death = max(Deaths, na.rm = TRUE)
+  )
 
 
 mtcars |>
@@ -47,3 +58,12 @@ mtcars |>
 mtcars |>
   group_by(vs, am) |>
   summarise(n = n())
+
+mtcars |>
+  group_by(cyl) |>
+    summarise(
+      disp = mean(disp),
+      hp = mean(hp),
+      mpg = mean(mpg),
+      n = n()
+  )
