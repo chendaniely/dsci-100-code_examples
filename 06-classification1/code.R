@@ -10,7 +10,7 @@ wine <- read_csv("https://archive.ics.uci.edu/ml/machine-learning-databases/wine
     "od280_od315_of_diluted_wines", "proline"
   )
 ) |>
-  mutate(target = factor(target))
+  mutate(target = as_factor(target))
 
 wine
 
@@ -20,21 +20,26 @@ wine_split <- initial_split(wine, prop = 0.8, strata = target)
 wine_train <- training(wine_split)
 wine_test  <- testing(wine_split)
 
-# --- KNN without preprocessing ---
 knn_spec <- nearest_neighbor(neighbors = 5) |>
   set_engine("kknn") |>
   set_mode("classification")
 
-knn_fit <- knn_spec |>
-  fit(target ~ ., data = wine)
-knn_fit
+# --- KNN without preprocessing (wrong: fitting on all data, no scaling) ---
+wine_recipe_no_scaling <- recipe(target ~ ., data = wine_train)
 
-y_pred <- predict(knn_fit, wine_test)
+# This is wrong: we fit on ALL data instead of only training data
+knn_fit_wrong <- workflow() |>
+  add_recipe(wine_recipe_no_scaling) |>
+  add_model(knn_spec) |>
+  fit(data = wine)  # should be wine_train, not wine
+knn_fit_wrong
 
-# Accuracy
-accuracy_vec(wine_test$target, y_pred$.pred_class)
+predict(knn_fit_wrong, wine_test) |>
+  bind_cols(wine_test) |>
+  metrics(truth = target, estimate = .pred_class) |>
+  filter(.metric == "accuracy")
 
-# --- KNN with preprocessing (scaling) ---
+# --- KNN with preprocessing (correct: scaling + fit on training data only) ---
 wine_recipe <- recipe(target ~ ., data = wine_train) |>
   step_center(all_numeric_predictors()) |>
   step_scale(all_numeric_predictors())
@@ -44,7 +49,7 @@ knn_pipeline <- workflow() |>
   add_model(knn_spec)
 
 knn_pipeline_fit <- knn_pipeline |>
-  fit(data = wine_train)  # fixed: use train data, not all data
+  fit(data = wine_train)
 
 knn_pipeline_fit
 
@@ -56,4 +61,5 @@ predict(knn_pipeline_fit, wine_test)
 knn_pipeline_fit |>
   predict(wine_test) |>
   bind_cols(wine_test) |>
-  accuracy(truth = target, estimate = .pred_class)
+  metrics(truth = target, estimate = .pred_class) |>
+  filter(.metric == "accuracy")

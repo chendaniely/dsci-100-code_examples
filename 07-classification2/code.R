@@ -48,12 +48,26 @@ grid_results <- tune_grid(
 )
 
 # ---- Best CV result --------------------------------------------------------
-best_params <- select_best(grid_results, metric = "accuracy")
-best_params
+best_k <- grid_results |>
+  collect_metrics() |>
+  filter(.metric == "accuracy") |>
+  arrange(desc(mean)) |>
+  head(1) |>
+  pull(neighbors)
 
-show_best(grid_results, metric = "accuracy", n = 1)
+best_k
 
-# ---- Finalize and evaluate on test set -------------------------------------
-final_workflow <- finalize_workflow(knn_workflow, best_params)
-final_fit <- last_fit(final_workflow, wine_split)
-collect_metrics(final_fit)
+# ---- Refit with best K and evaluate on test set ----------------------------
+knn_spec_final <- nearest_neighbor(neighbors = best_k) |>
+  set_engine("kknn") |>
+  set_mode("classification")
+
+final_fit <- workflow() |>
+  add_recipe(wine_recipe) |>
+  add_model(knn_spec_final) |>
+  fit(data = wine_train)
+
+predict(final_fit, wine_test) |>
+  bind_cols(wine_test) |>
+  metrics(truth = target, estimate = .pred_class) |>
+  filter(.metric == "accuracy")

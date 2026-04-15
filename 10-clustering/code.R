@@ -13,6 +13,10 @@ iris_data <- iris |>
   )
 iris_data
 
+iris_data |>
+  select(-species) |>
+  head()
+
 # example 1 -----
 # run k-means on 2 variables with standardization
 
@@ -61,8 +65,8 @@ ggplot(elbow_results, aes(x = num_clusters, y = mean)) +
 
 recipe2 <- recipe(~ sepal_length + sepal_width + species, data = iris_data) |>
   step_dummy(species) |>
-  step_scale(all_predictors()) |>
-  step_center(all_predictors())
+  step_scale(all_numeric_predictors()) |>
+  step_center(all_numeric_predictors())
 
 clust2 <- workflow() |>
   add_recipe(recipe2) |>

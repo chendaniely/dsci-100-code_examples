@@ -12,12 +12,15 @@ knn_spec <- nearest_neighbor(weight_func = "rectangular", neighbors = tune()) |>
   set_engine("kknn") |>
   set_mode("regression")
 
-# ocean_proximity is categorical — dummy-encode before scaling
+# NOTE: step_impute_median and step_dummy are NOT shown in the textbook.
+# They are needed here because this dataset has missing values in total_bedrooms
+# and a categorical column (ocean_proximity). The textbook uses Sacramento data
+# which has neither issue. Consider flagging this to students.
 housing_recipe <- recipe(median_house_value ~ ., data = housing_train) |>
-  step_impute_median(all_numeric_predictors()) |> #  total_bedrooms column has ~200 NAs. Without imputation, kknn silently drops those rows from each fold's data
-  step_dummy(all_nominal_predictors()) |>
-  step_scale(all_predictors()) |>
-  step_center(all_predictors())
+  step_impute_median(all_numeric_predictors()) |>  # handles ~200 NAs in total_bedrooms
+  step_dummy(all_nominal_predictors()) |>          # encodes ocean_proximity
+  step_scale(all_numeric_predictors()) |>
+  step_center(all_numeric_predictors())
 
 housing_wf <- workflow() |>
   add_recipe(housing_recipe) |>

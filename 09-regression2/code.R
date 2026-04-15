@@ -12,7 +12,9 @@ lm_spec <- linear_reg() |>
   set_engine("lm") |>
   set_mode("regression")
 
-# ocean_proximity is categorical, so we dummy-encode it
+# NOTE: step_dummy is NOT shown in the textbook. It is needed here because this
+# dataset has a categorical column (ocean_proximity). The textbook uses Sacramento
+# data which has no categorical predictors. Consider flagging this to students.
 housing_recipe <- recipe(median_house_value ~ ., data = housing_train) |>
   step_dummy(all_nominal_predictors())
 
