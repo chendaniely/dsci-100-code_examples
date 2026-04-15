@@ -54,7 +54,6 @@ gridsearch = GridSearchCV(
 # fit the GridSearchCV object
 gridsearch.fit(x_train, y_train)
 
-print("Best CV accuracy:", gridsearch.best_score_)
 print("Best parameters:", gridsearch.best_params_)
 
 y_pred = gridsearch.predict(x_test)

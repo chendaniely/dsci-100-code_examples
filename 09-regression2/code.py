@@ -19,7 +19,8 @@ housing_x_train, housing_x_test, housing_y_train, housing_y_test = train_test_sp
     random_state=42,
 )
 
-regressor = LinearRegression().fit(housing_x_train, housing_y_train)
+regressor = LinearRegression()
+regressor.fit(housing_x_train, housing_y_train)
 
 regressor.coef_
 
@@ -28,10 +29,11 @@ regressor.intercept_
 # coefficient table of results
 coefs = pd.DataFrame(
     {
-        "feature": housing_x_train.columns,
-        "coef": regressor.coef_,
+        "feature": list(housing_x_train.columns),
+        "coef": list(regressor.coef_),
+        "intercept": regressor.intercept_,
     }
-).assign(intercept=regressor.intercept_)
+)
 
 coefs
 

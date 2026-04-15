@@ -2,7 +2,6 @@ from sklearn.datasets import load_wine
 from sklearn.model_selection import train_test_split
 from sklearn import set_config
 from sklearn.neighbors import KNeighborsClassifier
-from sklearn.metrics import accuracy_score
 from sklearn.preprocessing import StandardScaler
 from sklearn.compose import make_column_transformer, make_column_selector
 from sklearn.pipeline import make_pipeline
@@ -42,7 +41,6 @@ y_test
 
 
 knn.score(x_test, y_test)
-accuracy_score(y_test, y_pred)
 
 # fit model with pre processing
 
